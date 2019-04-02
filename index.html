@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Teoria da Computação 2 - Grafos</title>
+
+    <style>
+       p {
+           margin: 0;
+       }
+    </style>
+</head>
+<body>
+    <h3>Utilize a função "criarGrafo(nVertices, nArestas, pesos);"</h3>
+    <p>nVertices: Número de vértices do grafo</p>
+    <p>nArestas: Número de arestas do grafo</p>
+    <p>pesos: Número de vértices do grafo. Ex: { 1 : "peso" }</p>
+
+    <div id="graph"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.js"></script>
+    <script src="http://marvl.infotech.monash.edu/webcola/cola.v3.min.js"></script>
+    <script src="bower_components/greuler/dist/greuler.min.js"></script>
+    <script>
+        function criarGrafo(nVertices, nArestas, pesos) {
+            if(nArestas > nVertices) {
+                console.log("Muitas arestas");
+                return 
+            }
+
+            var nodes = [];
+            for(v = 1; v <= nVertices; v++){
+                nodes[v] = { id: v };
+            };
+
+            var links = [];
+            for(l = 1; l <= nArestas; l++){
+                if(l == nVertices) {
+                    links[l + 1] = { source: 1, target:l }
+                } else {
+                    links[l] = { source: l, target:(l + 1) }
+                }
+            };
+
+            if(pesos) {
+                for(var aresta in pesos){
+                    links[aresta].weight = pesos[aresta]
+                }
+            }
+
+            gerarGrafo(nodes, links);
+        }
+
+        function gerarGrafo(nodes, links) {
+            greuler({
+                target: '#graph',
+                width: 1000,
+                data: {
+                    nodes,
+                    links
+                }
+            }).update()
+        };
+    </script>
+</body>
+</html>
